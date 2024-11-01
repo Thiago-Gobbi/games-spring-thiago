@@ -30,9 +30,9 @@ public class Jogo {
     @ManyToMany
     @JoinTable(
         name = "jogos_possuem_plataformas",
-        joinColumn = @JoinColumn(name = "id_plataformas"),
-        iverseJoinColumns = @JoinColumn(name = "id_plataformas"))
-    private Set<Plataforma> platafomas = new HashSet<>();
+        joinColumns = @JoinColumn(name = "id_plataformas"),
+        inverseJoinColumns = @JoinColumn(name = "id_plataformas"))
+    private Set<Plataforma> plataformas = new HashSet<>();
 
     public long getId() {
         return id;
@@ -58,8 +58,8 @@ public class Jogo {
         this.categoria = categoria;
     }
 
-    public Set<Plataforma> getPaltaformas() {
-        return plataforms;
+    public Set<Plataforma> getPlataformas() {
+        return plataformas;
     }
 
     public void setPlataforms(Set<Plataforma> plataformas) {
