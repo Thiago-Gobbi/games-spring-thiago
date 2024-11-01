@@ -44,6 +44,51 @@ pubic String update(
     @RequestParam("id") long id,
     Model ui) {
 
-    Optional<Categoria> categoria = categoriaRepo.findById(id);    
+    Optional<Categoria> categoria = categoriaRepo.findById(id);
+    
+    if(categoria.isPresent()) {
+        ui.addAttribute("categoria", categoria.get());
+        return "categoria/update";
     }
+
+    return "rdirect:/categoria/list";
+}
+
+@RequestMapping(value = "/update", method = RequestMethod.POST)
+public String update(
+    @RequestParam("id") long id,
+    @RequestParam("nome") String nome) {
+
+    Optional<Categoria> categoria = categoriaRepo.findById(id);
+
+    if(categoria.isPresent()) {
+        categoria.get().setNome(nome);
+
+        categoriaRepo.save(categoria.get());
+    }
+
+    return "redirect:/categoria/list";
+}
+
+@RequestMapping("/delete")
+public String delete(
+    @RequestParam("id") long id,
+    Model ui) {
+
+    Optional<Categoria> categoria = categoriaRepo.findById(id);
+
+    if(categoria.isPresent()) {
+        ui.addAttribute("categoria", categoria.get());
+        return "categoria/delete";
+    }
+
+    return "redirect:/categoria/list";
+}
+
+@RequestMapping(value = "/delete", method = RequestMethod.POST)
+public String delete(@RequestParam("id") long id) {
+    categoriaRepo.deleteById(id);
+
+    return "redirect:/categoria/list";
+}
 }
