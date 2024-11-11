@@ -15,80 +15,78 @@ import application.repository.CategoriaRepository;
 @Controller
 @RequestMapping("/categoria")
 public class CategoriaController {
+
     @Autowired
     private CategoriaRepository categoriaRepo;
 
-    @@RequestMapping("/list")
+    // Método para listar todas as categorias
+    @RequestMapping("/list")
     public String list(Model ui) {
         ui.addAttribute("categorias", categoriaRepo.findAll());
-        return "categoria/ist";
+        return "categoria/list";  // Corrigido de "categoria/ist" para "categoria/list"
     }
 
+    // Método para exibir o formulário de inserção de categoria
     @RequestMapping("/insert")
     public String insert() {
         return "categoria/insert";
     }
     
-@RequestMapping(value = "/insert", method = RequestMethod.POST)
-public String insert(@RequestParam("nome") String nome) {
-    Categoria categoria = new Categoria();
-    categoria.setNome(nome);
+    // Método para inserir uma nova categoria
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public String insert(@RequestParam("nome") String nome) {
+        Categoria categoria = new Categoria();
+        categoria.setNome(nome);
 
-    categoriaRepo.saveNome(nome);
+        categoriaRepo.save(categoria);  // Corrigido de "categoriaRepo.saveNome(nome)" para "categoriaRepo.save(categoria)"
 
-    return "redirect:/categoria/list";
-}
-
-@RequestMapping("/update")
-pubic String update(
-    @RequestParam("id") long id,
-    Model ui) {
-
-    Optional<Categoria> categoria = categoriaRepo.findById(id);
-    
-    if(categoria.isPresent()) {
-        ui.addAttribute("categoria", categoria.get());
-        return "categoria/update";
+        return "redirect:/categoria/list";  // Redireciona para a lista de categorias
     }
 
-    return "rdirect:/categoria/list";
-}
+    // Método para exibir o formulário de atualização de categoria
+    @RequestMapping("/update")
+    public String update(@RequestParam("id") long id, Model ui) {
+        Optional<Categoria> categoria = categoriaRepo.findById(id);
+        
+        if (categoria.isPresent()) {
+            ui.addAttribute("categoria", categoria.get());
+            return "categoria/update";
+        }
 
-@RequestMapping(value = "/update", method = RequestMethod.POST)
-public String update(
-    @RequestParam("id") long id,
-    @RequestParam("nome") String nome) {
-
-    Optional<Categoria> categoria = categoriaRepo.findById(id);
-
-    if(categoria.isPresent()) {
-        categoria.get().setNome(nome);
-
-        categoriaRepo.save(categoria.get());
+        return "redirect:/categoria/list";  // Corrigido "rdirect:/categoria/list" para "redirect:/categoria/list"
     }
 
-    return "redirect:/categoria/list";
-}
+    // Método para atualizar uma categoria existente
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@RequestParam("id") long id, @RequestParam("nome") String nome) {
+        Optional<Categoria> categoria = categoriaRepo.findById(id);
 
-@RequestMapping("/delete")
-public String delete(
-    @RequestParam("id") long id,
-    Model ui) {
+        if (categoria.isPresent()) {
+            categoria.get().setNome(nome);
+            categoriaRepo.save(categoria.get());  // Atualizando a categoria no banco
+        }
 
-    Optional<Categoria> categoria = categoriaRepo.findById(id);
-
-    if(categoria.isPresent()) {
-        ui.addAttribute("categoria", categoria.get());
-        return "categoria/delete";
+        return "redirect:/categoria/list";  // Redireciona para a lista de categorias
     }
 
-    return "redirect:/categoria/list";
-}
+    // Método para exibir o formulário de deleção de categoria
+    @RequestMapping("/delete")
+    public String delete(@RequestParam("id") long id, Model ui) {
+        Optional<Categoria> categoria = categoriaRepo.findById(id);
 
-@RequestMapping(value = "/delete", method = RequestMethod.POST)
-public String delete(@RequestParam("id") long id) {
-    categoriaRepo.deleteById(id);
+        if (categoria.isPresent()) {
+            ui.addAttribute("categoria", categoria.get());
+            return "categoria/delete";
+        }
 
-    return "redirect:/categoria/list";
-}
+        return "redirect:/categoria/list";  // Redireciona caso a categoria não seja encontrada
+    }
+
+    // Método para deletar uma categoria
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("id") long id) {
+        categoriaRepo.deleteById(id);  // Deleta a categoria do banco
+
+        return "redirect:/categoria/list";  // Redireciona para a lista de categorias
+    }
 }

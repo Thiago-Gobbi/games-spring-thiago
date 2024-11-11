@@ -62,7 +62,7 @@ public class Jogo {
         return plataformas;
     }
 
-    public void setPlataforms(Set<Plataforma> plataformas) {
+    public void setPlataformas(Set<Plataforma> plataformas) {
         this.plataformas = plataformas;
     }
 }
