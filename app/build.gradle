@@ -1,18 +1,34 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-	implementation 'mysql:mysql-connector-java:8.0.33'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.4'
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    // Starter para Web (Spring MVC)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Para JSP
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    
+    // Conector JDBC para MySQL
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // Starter JPA (com Spring Data JPA)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Dependências do JSTL (Jakarta)
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    
+    // Dependência para testes
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }

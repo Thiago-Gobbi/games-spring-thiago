@@ -20,18 +20,20 @@ public class Jogo {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     private String titulo;
 
     @ManyToOne
-    @JoinColumn(name = "id_genero")
+    @JoinColumn(name = "id_genero") // Relacionamento com Categoria
     private Categoria categoria;
 
     @ManyToMany
     @JoinTable(
-        name = "jogos_possuem_plataformas",
-        joinColumns = @JoinColumn(name = "id_plataformas"),
-        inverseJoinColumns = @JoinColumn(name = "id_plataformas"))
+        name = "jogos_possuem_plataformas", // Nome da tabela de junção
+        joinColumns = @JoinColumn(name = "id_jogo"),  // Coluna de chave estrangeira para Jogo
+        inverseJoinColumns = @JoinColumn(name = "id_plataforma")  // Coluna de chave estrangeira para Plataforma
+    )
     private Set<Plataforma> plataformas = new HashSet<>();
 
     public long getId() {
